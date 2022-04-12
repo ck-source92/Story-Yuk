@@ -1,5 +1,6 @@
 package com.dwicandra.storyyukk.ui.auth.signup
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.databinding.ActivitySignUpBinding
 import com.dwicandra.storyyukk.ui.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignUpBinding
@@ -24,6 +26,10 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
         setupView()
         binding.btnSignUp.setOnClickListener(this)
+        binding.btnLogin.setOnClickListener{
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun setupView() {
@@ -38,7 +44,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         }
         supportActionBar?.hide()
     }
-
     override fun onClick(view: View?) {
         val name = binding.nameEdittext.text.toString()
         val email = binding.emailEditText.text.toString()
@@ -51,7 +56,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
                 binding.emailEditText.error = "Field ini tidak boleh kosong"
             }
             password.length <= 6 -> {
-                binding.nameEdittext.error = "Password harus lebih dari 6"
+                binding.passwordEditText.error = "Password harus lebih dari 6"
             }
             else -> {
                 when (view?.id) {

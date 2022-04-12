@@ -1,7 +1,8 @@
 package com.dwicandra.storyyukk.data.repository
 
 import android.util.Log
-import com.dwicandra.storyyukk.data.remote.response.ResponseRegister
+import com.dwicandra.storyyukk.data.remote.response.auth.ResponseLogin
+import com.dwicandra.storyyukk.data.remote.response.auth.ResponseRegister
 import com.dwicandra.storyyukk.data.remote.retrofit.ApiService
 import com.dwicandra.storyyukk.data.result.Result
 import retrofit2.Call
@@ -20,13 +21,13 @@ class AuthRepository private constructor(
             ) {
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
-                        Log.i("debug", "onResponse: BERHASIL");
+                        Log.i("debug", "onResponse: BERHASIL")
                         response.body()?.message
                     } else {
                         response.body()?.message
                     }
                 } else {
-                    Log.i("debug", "onResponse: GA BERHASIL");
+                    Log.i("debug", "onResponse: GA BERHASIL")
                     Result.Loading
                 }
             }
@@ -38,6 +39,27 @@ class AuthRepository private constructor(
         })
     }
 
+    fun requestLogin(email: String, password: String) {
+        val client = apiService.login(email, password)
+        client.enqueue(object : Callback<ResponseLogin> {
+            override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+                if (response.isSuccessful) {
+                    if (response.body()?.error == false) {
+                        Log.i("debug", "onResponse: BERHASIL")
+                        response.body()?.message
+                    } else {
+                        Log.i("debug", "onResponse: GAGAL")
+                        response.body()?.message
+                    }
+                } else {
+                    Log.i("debug", "onResponse: GA BERHASIL")
+                }
+            }
+            override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
+                Log.i("debug", "onFailure: GA BERHASIL")
+            }
+        })
+    }
 
     companion object {
         @Volatile

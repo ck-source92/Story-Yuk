@@ -1,4 +1,4 @@
-package com.dwicandra.storyyukk.data.remote.response
+package com.dwicandra.storyyukk.data.remote.response.auth
 
 import com.google.gson.annotations.SerializedName
 
