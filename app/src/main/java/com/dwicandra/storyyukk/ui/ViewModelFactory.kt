@@ -4,27 +4,18 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
-import com.dwicandra.storyyukk.data.repository.UserRepository
+import com.dwicandra.storyyukk.data.repository.AuthRepository
 import com.dwicandra.storyyukk.ui.auth.signup.SignupViewModel
 
-class ViewModelFactory(private val userRepository: UserRepository) :
+class ViewModelFactory(private val authRepository: AuthRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
-                SignupViewModel(userRepository) as T
+                SignupViewModel(authRepository) as T
             }
-//            modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
-//                SignupViewModel(preference) as T
-//            }
-//            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-//                LoginViewModel(preference) as T
-//            }
-//            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-//                MainViewModel(preference) as T
-//            }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
             }

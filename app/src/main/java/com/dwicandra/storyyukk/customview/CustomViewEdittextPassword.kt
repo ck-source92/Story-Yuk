@@ -41,10 +41,10 @@ class CustomViewEdittextPassword : AppCompatEditText {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s?.length!! < 6) {
-                    error = "Your Passwords must match and must be at least 6 characters in length"
+                error = if (s?.length!! < 6) {
+                    "Your Passwords must match and must be at least 6 characters in length"
                 } else {
-                    error = null
+                    null
                 }
             }
 
