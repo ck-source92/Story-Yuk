@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
 import com.dwicandra.storyyukk.data.repository.AuthRepository
+import com.dwicandra.storyyukk.ui.activity.MainViewModel
 import com.dwicandra.storyyukk.ui.auth.login.LoginViewModel
 import com.dwicandra.storyyukk.ui.auth.signup.SignupViewModel
 
@@ -20,6 +21,9 @@ class ViewModelFactory(private val authRepository: AuthRepository) :
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(authRepository) as T
             }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(authRepository) as T
+            }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
             }
@@ -31,7 +35,7 @@ class ViewModelFactory(private val authRepository: AuthRepository) :
         private var instance: ViewModelFactory? = null
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context))
+                instance ?: ViewModelFactory(Injection.provideAuthRepository(context))
             }.also { instance = it }
     }
 }

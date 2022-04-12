@@ -1,17 +1,25 @@
 package com.dwicandra.storyyukk.data.repository
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseLogin
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseRegister
 import com.dwicandra.storyyukk.data.remote.retrofit.ApiService
-import com.dwicandra.storyyukk.data.result.Result
+import com.dwicandra.storyyukk.data.result.ResultState
+import com.dwicandra.storyyukk.model.UserModel
+import com.dwicandra.storyyukk.model.UserPreference
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class AuthRepository private constructor(
     private val apiService: ApiService,
+    private val userPreference: UserPreference,
 ) {
+
+    fun getUserPref(): UserPreference {
+        return userPreference
+    }
+
     fun requestRegister(name: String, email: String, password: String) {
         val client = apiService.register(name, email, password)
         client.enqueue(object : Callback<ResponseRegister> {
@@ -21,42 +29,56 @@ class AuthRepository private constructor(
             ) {
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
-                        Log.i("debug", "onResponse: BERHASIL")
                         response.body()?.message
                     } else {
                         response.body()?.message
                     }
                 } else {
-                    Log.i("debug", "onResponse: GA BERHASIL")
-                    Result.Loading
+                    ResultState.Loading
                 }
             }
 
             override fun onFailure(call: Call<ResponseRegister>, t: Throwable) {
-                Log.e("debug", "onFailure: ERROR > " + t.message)
-                Result.Error("ERROR")
+                ResultState.Error("ERROR")
             }
         })
     }
 
-    fun requestLogin(email: String, password: String) {
+    fun requestLogin(
+        email: String,
+        password: String,
+        mutableLiveData: MutableLiveData<ResultState<UserModel>>
+    ) {
         val client = apiService.login(email, password)
+        mutableLiveData.value = ResultState.Loading
         client.enqueue(object : Callback<ResponseLogin> {
-            override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
+            override fun onResponse(
+                call: Call<ResponseLogin>,
+                response: Response<ResponseLogin>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
-                        Log.i("debug", "onResponse: BERHASIL")
+                        val loginResult = response.body()?.loginResultResult
+                        mutableLiveData.value = ResultState.Success(
+                            UserModel(
+                                loginResult?.name ?: "",
+                                email,
+                                loginResult?.token ?: "",
+                                true
+                            )
+                        )
                         response.body()?.message
                     } else {
-                        Log.i("debug", "onResponse: GAGAL")
+                        mutableLiveData.value = ResultState.Error("Gagal")
                         response.body()?.message
                     }
                 } else {
-                    Log.i("debug", "onResponse: GA BERHASIL")
+                    mutableLiveData.value = ResultState.Error("Gagal")
                 }
             }
+
             override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-                Log.i("debug", "onFailure: GA BERHASIL")
+                mutableLiveData.value = ResultState.Error("Gagal")
             }
         })
     }
@@ -65,10 +87,11 @@ class AuthRepository private constructor(
         @Volatile
         private var instance: AuthRepository? = null
         fun getInstance(
-            apiService: ApiService
+            apiService: ApiService,
+            userPreference: UserPreference
         ): AuthRepository =
             instance ?: synchronized(this) {
-                instance ?: AuthRepository(apiService)
+                instance ?: AuthRepository(apiService, userPreference)
             }.also { instance = it }
     }
 }

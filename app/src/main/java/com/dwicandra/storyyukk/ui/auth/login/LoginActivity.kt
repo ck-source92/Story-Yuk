@@ -1,23 +1,24 @@
 package com.dwicandra.storyyukk.ui.auth.login
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dwicandra.storyyukk.R
+import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.ActivityLoginBinding
+import com.dwicandra.storyyukk.ui.activity.MainActivity
 import com.dwicandra.storyyukk.ui.ViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.signup.SignUpActivity
 import com.google.android.material.snackbar.Snackbar
-import java.time.Duration
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -31,9 +32,38 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         setupView()
         binding.btnLogin.setOnClickListener(this)
-        binding.btnSignUp.setOnClickListener{
-            val intent = Intent(this, SignUpActivity::class.java)
-            startActivity(intent)
+        binding.btnSignUp.setOnClickListener {
+
+        }
+
+        setupViewModel()
+    }
+
+    private fun setupViewModel() {
+        loginViewModel.isLogin.observe(this) {
+            when (it) {
+                is ResultState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.btnLogin.isEnabled = false
+                    val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+                    imm?.hideSoftInputFromWindow(binding.root.windowToken, 0)
+                }
+                is ResultState.Success -> {
+                    showSnackBar(binding.root, "Berhasil Login")
+                    binding.progressBar.visibility = View.GONE
+                    loginViewModel.saveUser(it.data)
+                    val intent = Intent(
+                        this,
+                        MainActivity::class.java
+                    ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                }
+                is ResultState.Error -> {
+                    showSnackBar(binding.root, "Error")
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnLogin.isEnabled = true
+                }
+            }
         }
     }
 
@@ -53,18 +83,22 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
-        when{
-            TextUtils.isEmpty(email) -> {
-                binding.emailEditText.error = "Field ini tidak boleh kosong"
+
+        when (view?.id) {
+            R.id.btnSignUp -> {
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
             }
-            password.length <= 6 -> {
-                binding.passwordEditText.error = "Field ini tidak boleh kosong"
-            }
-            else -> {
-                when (view?.id) {
-                    R.id.btnLogin -> {
+            R.id.btnLogin -> {
+                when {
+                    TextUtils.isEmpty(email) -> {
+                        binding.emailEditText.error = "Field ini tidak boleh kosong"
+                    }
+                    password.length <= 6 -> {
+                        binding.passwordEditText.error = "Field ini tidak boleh kosong"
+                    }
+                    else -> {
                         loginViewModel.requestLogin(email, password)
-                        showSnackBar(view, "Berhasil Login")
                     }
                 }
             }

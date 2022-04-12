@@ -1,6 +1,8 @@
 package com.dwicandra.storyyukk.data.remote.retrofit
 
+import androidx.lifecycle.asLiveData
 import com.dwicandra.storyyukk.BuildConfig
+import com.dwicandra.storyyukk.model.UserPreference
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,18 +10,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
-        fun getApiService(): ApiService {
+        fun getApiService(userPreference: UserPreference): ApiService {
             val loggingInterceptor = if (BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             } else {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
             val client = OkHttpClient.Builder()
-//                .addInterceptor {
-//                    val newReq = it.request().newBuilder()
-//                        .addHeader("Authorization", "Bearer ${BuildConfig.APIKEY}").build()
-//                    it.proceed(newReq)
-//                }
+                .addInterceptor {
+                    val newReq = it.request().newBuilder()
+                        .addHeader(
+                            "Authorization",
+                            "Bearer ${userPreference.getDataUser().asLiveData().value?.token}"
+                        ).build()
+                    it.proceed(newReq)
+                }
                 .addInterceptor(loggingInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()

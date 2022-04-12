@@ -13,20 +13,18 @@
         android:theme="@style/Theme.StoryYukk">
         <activity
             android:name=".ui.auth.login.LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.auth.signup.SignUpActivity"
-            android:exported="true" >
+            android:exported="false"/>
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.MainActivity"
-            android:exported="false">
-
         </activity>
     </application>
 

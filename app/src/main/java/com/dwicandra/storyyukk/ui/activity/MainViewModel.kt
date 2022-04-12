@@ -1,21 +1,21 @@
-package com.dwicandra.storyyukk.ui
+package com.dwicandra.storyyukk.ui.activity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.dwicandra.storyyukk.data.repository.AuthRepository
 import com.dwicandra.storyyukk.model.UserModel
-import com.dwicandra.storyyukk.model.UserPreference
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val pref: UserPreference): ViewModel(){
+class MainViewModel(private val authRepository: AuthRepository): ViewModel(){
     fun getUser(): LiveData<UserModel> {
-        return pref.getDataUser().asLiveData()
+        return authRepository.getUserPref().getDataUser().asLiveData()
     }
 
     fun logout(){
         viewModelScope.launch {
-            pref.logout()
+            authRepository.getUserPref().logout()
         }
     }
 }

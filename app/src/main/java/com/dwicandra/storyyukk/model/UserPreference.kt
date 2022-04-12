@@ -9,12 +9,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+
     fun getDataUser(): Flow<UserModel> {
         return dataStore.data.map { preference ->
             UserModel(
                 preference[NAME_KEY] ?: "",
                 preference[EMAIL_KEY] ?: "",
-                preference[PASSWORD_KEY] ?: "",
+                preference[KEY_TOKEN] ?: "",
                 preference[KEY_LOGIN] ?: false,
             )
         }
@@ -24,7 +25,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         dataStore.edit { mutablePreferences ->
             mutablePreferences[NAME_KEY] = user.name
             mutablePreferences[EMAIL_KEY] = user.email
-            mutablePreferences[PASSWORD_KEY] = user.password
+            mutablePreferences[KEY_TOKEN] = user.token
             mutablePreferences[KEY_LOGIN] = user.isLogin
         }
     }
@@ -41,13 +42,14 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+
     companion object {
         @Volatile
         private var INSTANCE: UserPreference? = null
 
         private val NAME_KEY = stringPreferencesKey("name")
         private val EMAIL_KEY = stringPreferencesKey("email")
-        private val PASSWORD_KEY = stringPreferencesKey("password")
+        private val KEY_TOKEN = stringPreferencesKey("token")
         private val KEY_LOGIN = booleanPreferencesKey("isLogin")
 
         fun getInstance(dataStore: DataStore<Preferences>): UserPreference {

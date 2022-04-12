@@ -14,10 +14,14 @@ import com.dwicandra.storyyukk.databinding.ActivitySignUpBinding
 import com.dwicandra.storyyukk.ui.ViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 
+
 class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivitySignUpBinding
-
-    private val signupViewModel by viewModels<SignupViewModel> { ViewModelFactory.getInstance(this) }
+    private val signupViewModel by viewModels<SignupViewModel> {
+        ViewModelFactory.getInstance(
+            this
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +30,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
 
         setupView()
         binding.btnSignUp.setOnClickListener(this)
-        binding.btnLogin.setOnClickListener{
+        binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -44,11 +48,12 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         }
         supportActionBar?.hide()
     }
+
     override fun onClick(view: View?) {
         val name = binding.nameEdittext.text.toString()
         val email = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
-        when{
+        when {
             TextUtils.isEmpty(name) -> {
                 binding.nameEdittext.error = "Field ini tidak boleh kosong"
             }
