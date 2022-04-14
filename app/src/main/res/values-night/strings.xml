@@ -3,4 +3,5 @@
     <string name="password">password</string>
     <string name="login">Login</string>
     <string name="name">Name</string>
+    <string name="storyimageview">storyImageView</string>
 </resources>

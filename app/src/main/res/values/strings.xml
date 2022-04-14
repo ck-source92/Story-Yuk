@@ -4,10 +4,17 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="signup">SIGN UP</string>
-    <string name="name">Name</string>
     <string name="message_main_page">Selamat Belajar di Dicoding.</string>
     <string name="copyright">copyright</string>
     <string name="logout">Keluar</string>
     <string name="greeting">Hello, %1$s,</string>
     <string name="or">Or</string>
+    <string name="name">Name</string>
+    <string name="storyimageview">storyImageView</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_post">Post</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_Profile">Profile</string>
 </resources>

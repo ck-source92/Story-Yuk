@@ -15,8 +15,8 @@ import androidx.core.content.ContextCompat
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.ActivityLoginBinding
-import com.dwicandra.storyyukk.ui.activity.MainActivity
 import com.dwicandra.storyyukk.ui.ViewModelFactory
+import com.dwicandra.storyyukk.ui.activity.main.MainActivity
 import com.dwicandra.storyyukk.ui.auth.signup.SignUpActivity
 import com.google.android.material.snackbar.Snackbar
 

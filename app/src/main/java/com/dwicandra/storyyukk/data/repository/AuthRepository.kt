@@ -59,26 +59,35 @@ class AuthRepository private constructor(
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
                         val loginResult = response.body()?.loginResultResult
-                        mutableLiveData.value = ResultState.Success(
-                            UserModel(
-                                loginResult?.name ?: "",
-                                email,
-                                loginResult?.token ?: "",
-                                true
+                        mutableLiveData.postValue(
+                            ResultState.Success(
+                                UserModel(
+                                    loginResult?.name ?: "",
+                                    email,
+                                    loginResult?.token ?: "",
+                                    true
+                                )
                             )
+//                        mutableLiveData.value = ResultState.Success(
+//                            UserModel(
+//                                loginResult?.name ?: "",
+//                                email,
+//                                loginResult?.token ?: "",
+//                                true
+//                            )
                         )
                         response.body()?.message
                     } else {
-                        mutableLiveData.value = ResultState.Error("Gagal")
+                        mutableLiveData.postValue(ResultState.Error("Gagal"))
                         response.body()?.message
                     }
                 } else {
-                    mutableLiveData.value = ResultState.Error("Gagal")
+                    mutableLiveData.postValue(ResultState.Error("Gagal"))
                 }
             }
 
             override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-                mutableLiveData.value = ResultState.Error("Gagal")
+                mutableLiveData.postValue(ResultState.Error("Gagal"))
             }
         })
     }

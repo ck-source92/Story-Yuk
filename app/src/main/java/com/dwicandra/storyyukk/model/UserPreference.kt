@@ -6,9 +6,16 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
+
+    suspend fun getToken() : String? {
+        val preference = dataStore.data.first()
+        return preference[KEY_TOKEN]
+    }
 
     fun getDataUser(): Flow<UserModel> {
         return dataStore.data.map { preference ->
