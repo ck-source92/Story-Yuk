@@ -9,7 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dwicandra.storyyukk.databinding.FragmentHomeBinding
-import com.dwicandra.storyyukk.ui.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
+import com.dwicandra.storyyukk.ui.activity.main.HomeViewModelFactory
 import com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileViewModel
 
 class HomeFragment : Fragment() {

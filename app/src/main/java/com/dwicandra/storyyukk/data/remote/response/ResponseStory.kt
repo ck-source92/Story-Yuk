@@ -1,6 +1,8 @@
 package com.dwicandra.storyyukk.data.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class ResponseStory(
     @field:SerializedName("error")
@@ -13,6 +15,7 @@ data class ResponseStory(
     val listStory: List<ListStoryItem>
 )
 
+@Parcelize
 data class ListStoryItem(
 
     @field:SerializedName("photoUrl")
@@ -35,4 +38,4 @@ data class ListStoryItem(
 
     @field:SerializedName("lat")
     val lat: Double? = null
-)
+) : Parcelable

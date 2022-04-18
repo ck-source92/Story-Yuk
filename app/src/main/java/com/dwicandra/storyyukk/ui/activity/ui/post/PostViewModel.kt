@@ -1,13 +1,15 @@
 package com.dwicandra.storyyukk.ui.activity.ui.post
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.dwicandra.storyyukk.data.repository.StoriesRepository
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class PostViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+class PostViewModel(private val storyRepository: StoriesRepository) : ViewModel() {
+    fun getListStories(){
+        storyRepository.getAllStories()
     }
-    val text: LiveData<String> = _text
+    fun uploadImage(file: MultipartBody.Part, description: RequestBody) {
+        storyRepository.uploadImage(file, description)
+    }
 }

@@ -1,11 +1,12 @@
-package com.dwicandra.storyyukk.ui.activity.ui.home
+package com.dwicandra.storyyukk.ui.activity.main
 
 import android.content.Context
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
 import com.dwicandra.storyyukk.data.repository.StoriesRepository
+import com.dwicandra.storyyukk.ui.activity.ui.home.HomeViewModel
+import com.dwicandra.storyyukk.ui.activity.ui.post.PostViewModel
 
 class HomeViewModelFactory(private val storyRepository: StoriesRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -15,6 +16,9 @@ class HomeViewModelFactory(private val storyRepository: StoriesRepository) :
         return when {
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(storyRepository) as T
+            }
+            modelClass.isAssignableFrom(PostViewModel::class.java) -> {
+                PostViewModel(storyRepository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

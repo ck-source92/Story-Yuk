@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.databinding.FragmentProfileBinding
-import com.dwicandra.storyyukk.ui.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 
 class ProfileFragment : Fragment(), View.OnClickListener {
