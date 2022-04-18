@@ -68,13 +68,6 @@ class AuthRepository private constructor(
                                     true
                                 )
                             )
-//                        mutableLiveData.value = ResultState.Success(
-//                            UserModel(
-//                                loginResult?.name ?: "",
-//                                email,
-//                                loginResult?.token ?: "",
-//                                true
-//                            )
                         )
                         response.body()?.message
                     } else {
