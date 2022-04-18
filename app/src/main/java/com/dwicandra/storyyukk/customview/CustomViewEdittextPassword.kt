@@ -3,7 +3,6 @@ package com.dwicandra.storyyukk.customview
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -55,7 +54,6 @@ class CustomViewEdittextPassword : AppCompatEditText {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        hint = "masukkan password"
         textAlignment = View.TEXT_ALIGNMENT_VIEW_START
     }
 
