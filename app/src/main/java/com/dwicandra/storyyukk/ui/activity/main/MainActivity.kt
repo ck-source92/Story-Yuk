@@ -10,7 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.databinding.ActivityMainBinding
-import com.dwicandra.storyyukk.ui.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
 import com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileViewModel
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.navigation_home, R.id.navigation_post, R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -47,12 +47,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        mainViewModel.getUser().observe(this) {
-            if (!it.isLogin) {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }else{
-                println("waokoawk ${it.token}")
+        mainViewModel.getUser().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         }
     }

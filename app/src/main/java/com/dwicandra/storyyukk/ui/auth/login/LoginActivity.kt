@@ -1,5 +1,7 @@
 package com.dwicandra.storyyukk.ui.auth.login
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,35 +10,48 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.ActivityLoginBinding
-import com.dwicandra.storyyukk.ui.ViewModelFactory
 import com.dwicandra.storyyukk.ui.activity.main.MainActivity
+import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.signup.SignUpActivity
 import com.google.android.material.snackbar.Snackbar
 
-
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var binding: ActivityLoginBinding
+    private var _binding: ActivityLoginBinding? = null
+    private val binding get() = _binding!!
     private val loginViewModel by viewModels<LoginViewModel> { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupView()
+        setupViewModel()
+        setupAnimation()
         binding.btnLogin.setOnClickListener(this)
-        binding.btnSignUp.setOnClickListener {
+        binding.btnSignUp.setOnClickListener(this)
+    }
 
+    private fun setupAnimation() {
+        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -32f, 32f).apply {
+            duration = 6000
+        }.start()
+
+
+        val loginBtn = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(1000)
+        val signupBtn = ObjectAnimator.ofFloat(binding.btnSignUp, View.ALPHA, 1f).setDuration(1000)
+
+        AnimatorSet().apply {
+            playSequentially(loginBtn, signupBtn)
+            start()
         }
 
-        setupViewModel()
     }
 
     private fun setupViewModel() {
@@ -105,16 +120,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun showSnackBar(view: View, message: String?) {
-        val snackBar = Snackbar.make(view, message!!, Snackbar.LENGTH_SHORT)
-        val snackBarView = snackBar.view
-        val txt =
-            snackBarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        snackBarView.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700))
-        txt.setTextColor(ContextCompat.getColor(this, R.color.black))
+    private fun showSnackBar(view: View, message: String) {
+        val snack = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+        val snackBarView = snack.view
+        snackBarView.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_700))
+        snack.show()
 
-        snackBar.show()
     }
-
-
 }
