@@ -12,14 +12,18 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_post"
         android:name="com.dwicandra.storyyukk.ui.activity.ui.post.PostFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_post" />
+        android:label="@string/title_post"
+        tools:layout="@layout/fragment_post" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_profile"
         android:name="com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/title_Profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
