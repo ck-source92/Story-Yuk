@@ -67,7 +67,6 @@
         android:inputType="textMultiLine"
         android:maxLines="10"
         android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
@@ -75,10 +74,12 @@
         android:id="@+id/upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/upload"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descEditText" />
+        app:layout_constraintHorizontal_bias="0.595"
+        app:layout_constraintStart_toEndOf="@+id/descEditText"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
