@@ -7,6 +7,7 @@ import com.dwicandra.storyyukk.data.remote.retrofit.ApiService
 import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.model.UserModel
 import com.dwicandra.storyyukk.model.UserPreference
+import com.dwicandra.storyyukk.util.ErrorParse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,7 +76,11 @@ class AuthRepository private constructor(
                         response.body()?.message
                     }
                 } else {
-                    mutableLiveData.postValue(ResultState.Error("Gagal"))
+                    mutableLiveData.postValue(
+                        ResultState.Error(
+                            error =  ErrorParse.parse(response)?.message ?: "error "
+                        )
+                    )
                 }
             }
 

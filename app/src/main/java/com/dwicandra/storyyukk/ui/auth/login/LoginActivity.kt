@@ -74,7 +74,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(intent)
                 }
                 is ResultState.Error -> {
-                    showSnackBar(binding.root, "Error")
+                    showSnackBar(binding.root, "Error : ${it.error}")
                     binding.progressBar.visibility = View.GONE
                     binding.btnLogin.isEnabled = true
                 }
