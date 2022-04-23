@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StoryYukk">
         <activity
+            android:name=".MapsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.DetailActivity"
             android:exported="false" />
         <activity
