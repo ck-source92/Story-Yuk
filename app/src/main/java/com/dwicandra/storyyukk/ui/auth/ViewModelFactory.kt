@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
 import com.dwicandra.storyyukk.data.repository.AuthRepository
+import com.dwicandra.storyyukk.ui.activity.maps.MapsViewModel
 import com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileViewModel
 import com.dwicandra.storyyukk.ui.auth.login.LoginViewModel
 import com.dwicandra.storyyukk.ui.auth.signup.SignupViewModel

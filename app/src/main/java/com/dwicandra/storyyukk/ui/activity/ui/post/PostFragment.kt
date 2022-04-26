@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.dwicandra.storyyukk.R
+import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.FragmentPostBinding
 import com.dwicandra.storyyukk.reduceFileImage
 import com.dwicandra.storyyukk.rotateBitmap
@@ -101,7 +102,6 @@ class PostFragment : Fragment() {
             )
             postViewModel.uploadImage(imageMultipart, text)
             findNavController().navigate(R.id.action_navigation_dashboard_to_navigation_home)
-            postViewModel.getListStories()
         } else {
             Toast.makeText(
                 requireContext(),

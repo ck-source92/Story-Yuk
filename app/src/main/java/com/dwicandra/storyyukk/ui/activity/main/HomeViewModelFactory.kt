@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
 import com.dwicandra.storyyukk.data.repository.StoriesRepository
+import com.dwicandra.storyyukk.ui.activity.maps.MapsViewModel
 import com.dwicandra.storyyukk.ui.activity.ui.home.HomeViewModel
 import com.dwicandra.storyyukk.ui.activity.ui.post.PostViewModel
 
@@ -19,6 +20,9 @@ class HomeViewModelFactory(private val storyRepository: StoriesRepository) :
             }
             modelClass.isAssignableFrom(PostViewModel::class.java) -> {
                 PostViewModel(storyRepository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(storyRepository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

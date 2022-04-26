@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.dwicandra.storyyukk.MapsActivity
+import com.dwicandra.storyyukk.ui.activity.maps.MapsActivity
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.databinding.ActivityMainBinding
 import com.dwicandra.storyyukk.ui.auth.ViewModelFactory

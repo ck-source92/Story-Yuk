@@ -4,4 +4,6 @@
     <string name="login">Login</string>
     <string name="name">Name</string>
     <string name="storyimageview">storyImageView</string>
+    <!--    maps    -->
+    <string name="map_id">99da19cf60762798</string>
 </resources>

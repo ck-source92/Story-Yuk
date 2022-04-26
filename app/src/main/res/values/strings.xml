@@ -21,4 +21,8 @@
     <string name="Description">Descriptions</string>
     <string name="sticker">sticker</string>
     <string name="maps">Maps</string>
+    <string name="welcome">WELCOME</string>
+
+    <!--    maps    -->
+    <string name="map_id">99da19cf60762798</string>
 </resources>

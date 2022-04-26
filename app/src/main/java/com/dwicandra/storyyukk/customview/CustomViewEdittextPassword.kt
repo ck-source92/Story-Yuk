@@ -13,7 +13,7 @@ import com.dwicandra.storyyukk.R
 
 class CustomViewEdittextPassword : AppCompatEditText {
 
-    internal lateinit var mClearButtonImage: Drawable
+    private lateinit var mClearButtonImage: Drawable
 
     constructor(context: Context) : super(context) {
         init()

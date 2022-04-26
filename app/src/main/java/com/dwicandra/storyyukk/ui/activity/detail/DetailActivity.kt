@@ -1,4 +1,4 @@
-package com.dwicandra.storyyukk.ui.activity
+package com.dwicandra.storyyukk.ui.activity.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
         listStoryItem = intent.getParcelableExtra(EXTRA_ID)
         listStoryItem?.let {
             binding.nameTextView.text = listStoryItem?.name
-            binding.descTextView.text = listStoryItem?.name
+            binding.descTextView.text = listStoryItem?.description
             supportActionBar?.title = listStoryItem?.name
             Glide.with(this@DetailActivity)
                 .load(listStoryItem?.photoUrl)

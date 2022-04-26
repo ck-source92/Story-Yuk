@@ -32,10 +32,10 @@ interface ApiService {
         @Part("description") description: RequestBody,
     ): Call<ResponseFileUpload>
 
-    @GET("/v1/stories?location=")
+    @GET("/v1/stories")
     fun getStories(): Call<ResponseStory>
-//
-//    @GET("/v1/stories?location=1")
-//    fun getLocationStories(): Call<ResponseStory>
+
+    @GET("/v1/stories?location=1")
+    fun getLocationStories(): Call<ResponseStory>
 
 }

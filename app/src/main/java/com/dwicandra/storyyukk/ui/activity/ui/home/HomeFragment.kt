@@ -40,12 +40,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setupView()
 
-        profileViewModel.getUser().observe(viewLifecycleOwner) {
-            if (it.isLogin) {
-                homeViewModel.getListStories()
-            }
-        }
-        homeViewModel.getListStories()
         setupViewModel()
         return binding.root
     }
@@ -67,6 +61,11 @@ class HomeFragment : Fragment() {
             if (it != null) {
                 val adapter = ListStoryAdapter(it)
                 binding.rvStories.adapter = adapter
+            }
+        }
+        profileViewModel.getUser().observe(viewLifecycleOwner) {
+            if (it.isLogin) {
+                homeViewModel.getListStories()
             }
         }
     }

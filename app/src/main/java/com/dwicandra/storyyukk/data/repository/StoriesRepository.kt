@@ -7,20 +7,20 @@ import com.dwicandra.storyyukk.data.remote.response.ResponseFileUpload
 import com.dwicandra.storyyukk.data.remote.response.ResponseStory
 import com.dwicandra.storyyukk.data.remote.retrofit.ApiService
 import com.dwicandra.storyyukk.data.result.ResultState
+import com.dwicandra.storyyukk.util.ErrorParse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class StoriesRepository private constructor(private val apiService: ApiService) {
 
     private val _listStory = MutableLiveData<List<ListStoryItem>>()
     val listStory: LiveData<List<ListStoryItem>> = _listStory
+
+    private val _allStoriesLocation = MutableLiveData<ResultState<List<ListStoryItem>>>()
+    val allStoriesLocation: LiveData<ResultState<List<ListStoryItem>>> = _allStoriesLocation
 
     fun getAllStories() {
         val client = apiService.getStories()
@@ -44,16 +44,16 @@ class StoriesRepository private constructor(private val apiService: ApiService) 
 
     fun uploadImage(photo: MultipartBody.Part, description: RequestBody) {
         val client = apiService.uploadImage(photo, description)
-        client.enqueue(object : Callback<ResponseFileUpload>{
+        client.enqueue(object : Callback<ResponseFileUpload> {
             override fun onResponse(
                 call: Call<ResponseFileUpload>,
                 response: Response<ResponseFileUpload>
             ) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     val responseBody = response.body()
-                    if (responseBody != null && !responseBody.error){
+                    if (responseBody != null && !responseBody.error) {
                         response.message()
-                    }else{
+                    } else {
                         ResultState.Loading
                     }
                 }
@@ -64,6 +64,34 @@ class StoriesRepository private constructor(private val apiService: ApiService) 
             }
         })
 
+    }
+
+    fun getAllStoriesLocation() {
+        val client = apiService.getLocationStories()
+        client.enqueue(object : Callback<ResponseStory> {
+            override fun onResponse(call: Call<ResponseStory>, response: Response<ResponseStory>) {
+                if (response.isSuccessful) {
+                    if (response.body()?.error == false) {
+                        response.message()
+                        _allStoriesLocation.postValue(ResultState.Success(response.body()!!.listStory))
+                    } else {
+                        _allStoriesLocation.postValue(ResultState.Loading)
+                    }
+                } else {
+                    ResultState.Error(
+                        ErrorParse.parse(response)?.message ?: "error"
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseStory>, t: Throwable) {
+                _allStoriesLocation.postValue(
+                    ResultState.Error(
+                        ErrorParse.parse(call.execute())?.message ?: "error"
+                    )
+                )
+            }
+        })
     }
 
     companion object {

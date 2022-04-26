@@ -10,8 +10,9 @@ import com.bumptech.glide.Glide
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.data.remote.response.ListStoryItem
 import com.dwicandra.storyyukk.databinding.ItemStoryBinding
-import com.dwicandra.storyyukk.ui.activity.DetailActivity
+import com.dwicandra.storyyukk.ui.activity.detail.DetailActivity
 import androidx.core.util.Pair
+import com.dwicandra.storyyukk.ui.activity.maps.MapsActivity
 
 class ListStoryAdapter(private val listStory: List<ListStoryItem>) :
     RecyclerView.Adapter<ListStoryAdapter.ViewHolder>() {
@@ -51,27 +52,5 @@ class ListStoryAdapter(private val listStory: List<ListStoryItem>) :
     }
 
     override fun getItemCount(): Int = listStory.size
-
-//    holder.binding.apply {
-//        Glide.with(holder.itemView)
-//            .load(listStory[position].photoUrl)
-//            .error(R.mipmap.ic_launcher)
-//            .into(storyImageView)
-//        nameTextView.text = listStory[position].name
-//        descTextView.text = listStory[position].description
-//    }
-//    holder.itemView.setOnClickListener{
-//        val intent = Intent(holder.itemView.context, DetailActivity::class.java)
-//        intent.putExtra(DetailActivity.EXTRA_ID, listStory[position])
-//        val optionsCompat: ActivityOptionsCompat =
-//            ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                holder.itemView as Activity,
-//                Pair(, "profile"),
-//                Pair(tvName, "name"),
-//                Pair(tvDescription, "description"),
-//            )
-//        itemView.context.startActivity(intent, optionsCompat.toBundle())
-//        holder.itemView.context.startActivity(intent)
-//    }
 
 }

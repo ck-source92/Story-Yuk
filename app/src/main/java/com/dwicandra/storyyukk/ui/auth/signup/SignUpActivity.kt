@@ -66,9 +66,6 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             TextUtils.isEmpty(email) -> {
                 binding.emailEditText.error = "Field ini tidak boleh kosong"
             }
-            password.length <= 6 -> {
-                binding.passwordEditText.error = "Password harus lebih dari 6"
-            }
             else -> {
                 when (view?.id) {
                     R.id.btnSignUp -> {
