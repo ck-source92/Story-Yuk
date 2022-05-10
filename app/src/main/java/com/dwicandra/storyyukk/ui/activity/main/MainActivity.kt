@@ -13,8 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.dwicandra.storyyukk.ui.activity.maps.MapsActivity
 import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.databinding.ActivityMainBinding
-import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
-import com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileViewModel
+import com.dwicandra.storyyukk.ui.auth.AuthViewModelFactory
+import com.dwicandra.storyyukk.ui.activity.fragment.profile.ProfileViewModel
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel by viewModels<ProfileViewModel> {
-        ViewModelFactory.getInstance(
+        AuthViewModelFactory.getInstance(
             this
         )
     }
@@ -38,8 +38,7 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_dashboard)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_post, R.id.navigation_profile

@@ -5,12 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dwicandra.storyyukk.data.injection.Injection
 import com.dwicandra.storyyukk.data.repository.AuthRepository
-import com.dwicandra.storyyukk.ui.activity.maps.MapsViewModel
-import com.dwicandra.storyyukk.ui.activity.ui.profile.ProfileViewModel
+import com.dwicandra.storyyukk.ui.activity.fragment.profile.ProfileViewModel
 import com.dwicandra.storyyukk.ui.auth.login.LoginViewModel
 import com.dwicandra.storyyukk.ui.auth.signup.SignupViewModel
 
-class ViewModelFactory(private val authRepository: AuthRepository) :
+class AuthViewModelFactory(private val authRepository: AuthRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
@@ -33,10 +32,10 @@ class ViewModelFactory(private val authRepository: AuthRepository) :
 
     companion object {
         @Volatile
-        private var instance: ViewModelFactory? = null
-        fun getInstance(context: Context): ViewModelFactory =
+        private var instance: AuthViewModelFactory? = null
+        fun getInstance(context: Context): AuthViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideAuthRepository(context))
+                instance ?: AuthViewModelFactory(Injection.provideAuthRepository(context))
             }.also { instance = it }
     }
 }

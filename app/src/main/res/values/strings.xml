@@ -25,4 +25,5 @@
 
     <!--    maps    -->
     <string name="map_id">99da19cf60762798</string>
+    <string name="retry">Retry</string>
 </resources>
