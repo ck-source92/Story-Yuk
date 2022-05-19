@@ -1,4 +1,4 @@
-package com.dwicandra.storyyukk.ui.activity.ui.profile
+package com.dwicandra.storyyukk.ui.activity.fragment.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -9,12 +9,6 @@ import com.dwicandra.storyyukk.model.UserModel
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val authRepository: AuthRepository) : ViewModel() {
-    /**
-    private val _text = MutableLiveData<String>().apply {
-    value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
-     **/
     fun getUser(): LiveData<UserModel> {
         return authRepository.getUserPref().getDataUser().asLiveData()
     }

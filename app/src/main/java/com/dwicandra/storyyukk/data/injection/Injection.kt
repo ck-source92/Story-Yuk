@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.LifecycleOwner
+import com.dwicandra.storyyukk.data.local.room.StoriesDatabase
 import com.dwicandra.storyyukk.data.remote.retrofit.ApiConfig
 import com.dwicandra.storyyukk.data.repository.AuthRepository
 import com.dwicandra.storyyukk.data.repository.StoriesRepository
@@ -22,6 +22,7 @@ object Injection {
     fun provideStoryRepository(context: Context): StoriesRepository{
         val preference = UserPreference.getInstance(context.dataStore)
         val apiService = ApiConfig.getApiService(preference)
-        return StoriesRepository.getInstance(apiService)
+        val database = StoriesDatabase.getDatabase(context)
+        return StoriesRepository.getInstance(apiService,database)
     }
 }

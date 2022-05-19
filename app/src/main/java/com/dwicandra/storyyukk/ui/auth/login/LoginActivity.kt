@@ -17,14 +17,14 @@ import com.dwicandra.storyyukk.R
 import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.ActivityLoginBinding
 import com.dwicandra.storyyukk.ui.activity.main.MainActivity
-import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.AuthViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.signup.SignUpActivity
 import com.google.android.material.snackbar.Snackbar
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private var _binding: ActivityLoginBinding? = null
     private val binding get() = _binding!!
-    private val loginViewModel by viewModels<LoginViewModel> { ViewModelFactory.getInstance(this) }
+    private val loginViewModel by viewModels<LoginViewModel> { AuthViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +78,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     binding.progressBar.visibility = View.GONE
                     binding.btnLogin.isEnabled = true
                 }
+                else -> {}
             }
         }
     }
@@ -109,9 +110,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     TextUtils.isEmpty(email) -> {
                         binding.emailEditText.error = "Field ini tidak boleh kosong"
                     }
-                    password.length <= 6 -> {
-                        binding.passwordEditText.error = "Field ini tidak boleh kosong"
-                    }
                     else -> {
                         loginViewModel.requestLogin(email, password)
                     }
@@ -125,6 +123,5 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         val snackBarView = snack.view
         snackBarView.setBackgroundColor(ContextCompat.getColor(this, R.color.yellow_700))
         snack.show()
-
     }
 }

@@ -1,5 +1,6 @@
 package com.dwicandra.storyyukk.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseLogin
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseRegister
@@ -16,13 +17,20 @@ class AuthRepository private constructor(
     private val apiService: ApiService,
     private val userPreference: UserPreference,
 ) {
+    private val _register = MutableLiveData<ResultState<ResponseRegister>>()
+    val getRegisterLiveData: LiveData<ResultState<ResponseRegister>> = _register
 
     fun getUserPref(): UserPreference {
         return userPreference
     }
 
-    fun requestRegister(name: String, email: String, password: String) {
+    fun requestRegister(
+        name: String,
+        email: String,
+        password: String,
+    ) {
         val client = apiService.register(name, email, password)
+        _register.value = ResultState.Loading
         client.enqueue(object : Callback<ResponseRegister> {
             override fun onResponse(
                 call: Call<ResponseRegister>,
@@ -30,17 +38,37 @@ class AuthRepository private constructor(
             ) {
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
+                        _register.postValue(
+                            ResultState.Success(
+                                ResponseRegister(
+                                    response.body()!!.error,
+                                    response.body()!!.message
+                                )
+                            )
+                        )
                         response.body()?.message
                     } else {
-                        response.body()?.message
+                        _register.postValue(
+                            ResultState.Error(
+                                error = ErrorParse.parse(response)?.message ?: "error "
+                            )
+                        )
                     }
                 } else {
-                    ResultState.Loading
+                    _register.postValue(
+                        ResultState.Error(
+                            error = ErrorParse.parse(response)?.message ?: "error "
+                        )
+                    )
                 }
             }
 
             override fun onFailure(call: Call<ResponseRegister>, t: Throwable) {
-                ResultState.Error("ERROR")
+                _register.postValue(
+                    ResultState.Error(
+                        "Gagal"
+                    )
+                )
             }
         })
     }
@@ -78,7 +106,7 @@ class AuthRepository private constructor(
                 } else {
                     mutableLiveData.postValue(
                         ResultState.Error(
-                            error =  ErrorParse.parse(response)?.message ?: "error "
+                            error = ErrorParse.parse(response)?.message ?: "error "
                         )
                     )
                 }

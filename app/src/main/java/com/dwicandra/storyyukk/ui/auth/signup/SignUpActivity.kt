@@ -14,8 +14,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dwicandra.storyyukk.R
+import com.dwicandra.storyyukk.data.result.ResultState
 import com.dwicandra.storyyukk.databinding.ActivitySignUpBinding
-import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.AuthViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -23,7 +24,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
     private var _binding: ActivitySignUpBinding? = null
     private val binding get() = _binding!!
     private val signupViewModel by viewModels<SignupViewModel> {
-        ViewModelFactory.getInstance(
+        AuthViewModelFactory.getInstance(
             this
         )
     }
@@ -34,11 +35,31 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         setupView()
+        setupViewModel()
         setupAnimation()
         binding.btnSignUp.setOnClickListener(this)
-        binding.btnLogin.setOnClickListener{
+        binding.btnLogin.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setupViewModel() {
+        signupViewModel.getRegister?.observe(this) {
+            when (it) {
+                is ResultState.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is ResultState.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    showSnackBar(binding.root, "Success: ${it.data.message}")
+                }
+                is ResultState.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    showSnackBar(binding.root, "Error : ${it.error}")
+                }
+                else -> {}
+            }
         }
     }
 
@@ -66,16 +87,11 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
             TextUtils.isEmpty(email) -> {
                 binding.emailEditText.error = "Field ini tidak boleh kosong"
             }
-            password.length <= 6 -> {
-                binding.passwordEditText.error = "Password harus lebih dari 6"
-            }
             else -> {
                 when (view?.id) {
                     R.id.btnSignUp -> {
                         signupViewModel.requestRegister(name, email, password)
-                        showSnackBar(binding.root, "Sign Up Berhasil")
                     }
-
                 }
             }
         }
@@ -90,7 +106,7 @@ class SignUpActivity : AppCompatActivity(), View.OnClickListener {
         val loginBtn = ObjectAnimator.ofFloat(binding.btnLogin, View.ALPHA, 1f).setDuration(1000)
 
         AnimatorSet().apply {
-            playSequentially(signupBtn,loginBtn)
+            playSequentially(signupBtn, loginBtn)
             start()
         }
 

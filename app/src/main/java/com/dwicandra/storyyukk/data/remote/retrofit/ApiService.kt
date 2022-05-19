@@ -1,6 +1,5 @@
 package com.dwicandra.storyyukk.data.remote.retrofit
 
-import com.dwicandra.storyyukk.data.remote.response.ResponseFileUpload
 import com.dwicandra.storyyukk.data.remote.response.ResponseStory
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseLogin
 import com.dwicandra.storyyukk.data.remote.response.auth.ResponseRegister
@@ -29,13 +28,16 @@ interface ApiService {
     @POST("/v1/stories")
     fun uploadImage(
         @Part file: MultipartBody.Part,
-        @Part("description") description: RequestBody,
-    ): Call<ResponseFileUpload>
+        @Part("description") description: RequestBody
+    ): Call<ResponseStory>
 
-    @GET("/v1/stories?location=")
-    fun getStories(): Call<ResponseStory>
-//
-//    @GET("/v1/stories?location=1")
-//    fun getLocationStories(): Call<ResponseStory>
+    @GET("/v1/stories")
+    suspend fun getStories(
+        @Query("page") page: Int?,
+        @Query("size") size: Int?
+    ): ResponseStory
+
+    @GET("/v1/stories?location=1")
+    fun getLocationStories(): Call<ResponseStory>
 
 }
