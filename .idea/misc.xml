@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/background_item.xml" value="0.1355" />
+        <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/background_stroke_outline.xml" value="0.1355" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.1355" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1355" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/ic_baseline_person_black_outline_24.xml" value="0.1355" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1355" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1355" />
+        <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout-v31/item_story.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/activity_dashboard.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/activity_detail.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/activity_login.xml" value="0.25" />
@@ -21,7 +23,8 @@
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/fragment_notifications.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/fragment_post.xml" value="0.22447916666666667" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/fragment_profile.xml" value="0.22447916666666667" />
-        <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/item_story.xml" value="0.22447916666666667" />
+        <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/item_loading.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/layout/item_story.xml" value="0.25" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/menu/action_menu.xml" value="0.22" />
         <entry key="..\:/AndroidProject/StoryYukk/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22447916666666667" />
       </map>

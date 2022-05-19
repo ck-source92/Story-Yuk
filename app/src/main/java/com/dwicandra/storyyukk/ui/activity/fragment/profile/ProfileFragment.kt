@@ -1,4 +1,4 @@
-package com.dwicandra.storyyukk.ui.activity.ui.profile
+package com.dwicandra.storyyukk.ui.activity.fragment.profile
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dwicandra.storyyukk.databinding.FragmentProfileBinding
-import com.dwicandra.storyyukk.ui.auth.ViewModelFactory
+import com.dwicandra.storyyukk.ui.auth.AuthViewModelFactory
 import com.dwicandra.storyyukk.ui.auth.login.LoginActivity
 
 class ProfileFragment : Fragment(), View.OnClickListener {
 
     private var _binding: FragmentProfileBinding? = null
     private val profileViewModel by viewModels<ProfileViewModel> {
-        ViewModelFactory.getInstance(
+        AuthViewModelFactory.getInstance(
             requireContext()
         )
     }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

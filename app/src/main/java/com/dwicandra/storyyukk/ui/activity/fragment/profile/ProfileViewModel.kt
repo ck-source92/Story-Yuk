@@ -1,4 +1,4 @@
-package com.dwicandra.storyyukk.ui.activity.ui.profile
+package com.dwicandra.storyyukk.ui.activity.fragment.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

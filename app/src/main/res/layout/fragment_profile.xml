@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.ui.profile.ProfileFragment">
+    tools:context=".ui.activity.fragment.profile.ProfileFragment">
 
     <Button
         android:id="@+id/logoutButton"
@@ -14,6 +14,7 @@
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/design_default_color_error"
         android:text="@string/logout"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

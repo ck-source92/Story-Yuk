@@ -6,4 +6,5 @@
     <string name="storyimageview">storyImageView</string>
     <!--    maps    -->
     <string name="map_id">99da19cf60762798</string>
+    <string name="with_location">With Location</string>
 </resources>

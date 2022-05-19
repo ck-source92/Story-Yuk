@@ -2,8 +2,11 @@ package com.dwicandra.storyyukk.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.*
+import com.dwicandra.storyyukk.data.local.entity.StoriesEntity
+import com.dwicandra.storyyukk.data.local.room.StoriesDatabase
+import com.dwicandra.storyyukk.data.paging.StoriesRemoteMediator
 import com.dwicandra.storyyukk.data.remote.response.ListStoryItem
-import com.dwicandra.storyyukk.data.remote.response.ResponseFileUpload
 import com.dwicandra.storyyukk.data.remote.response.ResponseStory
 import com.dwicandra.storyyukk.data.remote.retrofit.ApiService
 import com.dwicandra.storyyukk.data.result.ResultState
@@ -14,52 +17,49 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class StoriesRepository private constructor(private val apiService: ApiService) {
-
-    private val _listStory = MutableLiveData<List<ListStoryItem>>()
-    val listStory: LiveData<List<ListStoryItem>> = _listStory
-
+class StoriesRepository(
+    private val storiesDatabase: StoriesDatabase,
+    private val apiService: ApiService
+) {
     private val _allStoriesLocation = MutableLiveData<ResultState<List<ListStoryItem>>>()
     val allStoriesLocation: LiveData<ResultState<List<ListStoryItem>>> = _allStoriesLocation
 
-    fun getAllStories() {
-        val client = apiService.getStories()
-        client.enqueue(object : Callback<ResponseStory> {
-            override fun onResponse(call: Call<ResponseStory>, response: Response<ResponseStory>) {
-                if (response.isSuccessful) {
-                    if (response.body()?.error == false) {
-                        response.message()
-                        _listStory.value = response.body()?.listStory
-                    } else {
-                        ResultState.Loading
-                    }
-                }
+    fun getAllStories(): LiveData<PagingData<StoriesEntity>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoriesRemoteMediator(
+                database = storiesDatabase,
+                apiService = apiService
+            ),
+            pagingSourceFactory = {
+                storiesDatabase.storiesDao().getAllStories()
             }
-
-            override fun onFailure(call: Call<ResponseStory>, t: Throwable) {
-                ResultState.Error("ERROR")
-            }
-        })
+        ).liveData
     }
 
-    fun uploadImage(photo: MultipartBody.Part, description: RequestBody) {
+    fun uploadImage(
+        photo: MultipartBody.Part, description: RequestBody
+    ) {
         val client = apiService.uploadImage(photo, description)
-        client.enqueue(object : Callback<ResponseFileUpload> {
+        client.enqueue(object : Callback<ResponseStory> {
             override fun onResponse(
-                call: Call<ResponseFileUpload>,
-                response: Response<ResponseFileUpload>
+                call: Call<ResponseStory>,
+                response: Response<ResponseStory>
             ) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null && !responseBody.error) {
                         response.message()
-                    } else {
-                        ResultState.Loading
                     }
+                } else {
+                    response.body()?.message
                 }
             }
 
-            override fun onFailure(call: Call<ResponseFileUpload>, t: Throwable) {
+            override fun onFailure(call: Call<ResponseStory>, t: Throwable) {
                 ResultState.Error("ERROR UPLOAD IMAGE")
             }
         })
@@ -69,7 +69,10 @@ class StoriesRepository private constructor(private val apiService: ApiService) 
     fun getAllStoriesLocation() {
         val client = apiService.getLocationStories()
         client.enqueue(object : Callback<ResponseStory> {
-            override fun onResponse(call: Call<ResponseStory>, response: Response<ResponseStory>) {
+            override fun onResponse(
+                call: Call<ResponseStory>,
+                response: Response<ResponseStory>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()?.error == false) {
                         response.message()
@@ -98,10 +101,11 @@ class StoriesRepository private constructor(private val apiService: ApiService) 
         @Volatile
         private var instance: StoriesRepository? = null
         fun getInstance(
-            apiService: ApiService
+            apiService: ApiService,
+            database: StoriesDatabase
         ): StoriesRepository =
             instance ?: synchronized(this) {
-                instance ?: StoriesRepository(apiService)
+                instance ?: StoriesRepository(database, apiService)
             }.also { instance = it }
     }
 }
